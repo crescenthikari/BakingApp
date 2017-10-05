@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/recipe_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?listPreferredItemHeightSmall"
+        android:paddingEnd="@dimen/recipe_horizontal_padding"
+        android:paddingStart="@dimen/recipe_horizontal_padding"
+        tools:text="@string/tools_recipe_name_text" />
+
+</android.support.v7.widget.CardView>
