@@ -1,10 +1,14 @@
 package net.crescenthikari.bakingapp.features.list.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import net.crescenthikari.bakingapp.R;
 import net.crescenthikari.bakingapp.data.model.Recipe;
@@ -68,6 +72,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         @BindView(R.id.recipe_name)
         TextView recipeNameField;
 
+        @BindView(R.id.recipe_image)
+        ImageView recipeImageView;
+
         RecipeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -83,6 +90,16 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
         void bind(Recipe recipe) {
             recipeNameField.setText(recipe.getName());
+            if (!TextUtils.isEmpty(recipe.getImage())) {
+                recipeImageView.setVisibility(View.VISIBLE);
+                Picasso.with(itemView.getContext())
+                        .load(recipe.getImage())
+                        .placeholder(R.drawable.ic_insert_photo_black_48dp)
+                        .error(R.drawable.ic_broken_image_black_48dp)
+                        .into(recipeImageView);
+            } else {
+                recipeImageView.setVisibility(View.GONE);
+            }
         }
     }
 }
