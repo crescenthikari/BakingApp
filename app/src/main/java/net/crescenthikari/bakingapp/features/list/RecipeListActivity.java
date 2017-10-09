@@ -83,7 +83,7 @@ public class RecipeListActivity extends AppCompatActivity
     private void setupRecipeListView() {
         recipeListAdapter = new RecipeListAdapter();
         recipeListAdapter.setItemClickListener(this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, R.integer.grid_count);
         recipeListView.setLayoutManager(gridLayoutManager);
         recipeListView.setItemAnimator(new DefaultItemAnimator());
         recipeListView.setAdapter(recipeListAdapter);
