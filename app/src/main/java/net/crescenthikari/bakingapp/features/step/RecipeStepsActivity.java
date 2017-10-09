@@ -3,6 +3,7 @@ package net.crescenthikari.bakingapp.features.step;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import net.crescenthikari.bakingapp.R;
 import net.crescenthikari.bakingapp.data.model.Recipe;
@@ -33,7 +33,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -60,6 +59,7 @@ public class RecipeStepsActivity extends AppCompatActivity
 
     public static final String KEY_RECIPE_ID = "RECIPE_ID";
     public static final String KEY_RECIPE_NAME = "RECIPE_NAME";
+    public static final String KEY_RV_STATE = "RV_STATE";
     public static final int UNDEFINED_ID = -1;
     @Inject
     RecipeRepository recipeRepository;
@@ -77,6 +77,10 @@ public class RecipeStepsActivity extends AppCompatActivity
 
     private long recipeId;
     private String recipeName;
+
+    private Parcelable rvState;
+    private GridLayoutManager rvLayoutManager;
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -138,6 +142,14 @@ public class RecipeStepsActivity extends AppCompatActivity
         getRecipeDetail();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (rvState != null) {
+            rvLayoutManager.onRestoreInstanceState(rvState);
+        }
+    }
+
     private void getRecipeDetail() {
         recipeRepository.getRecipe(recipeId)
                 .subscribeOn(Schedulers.io())
@@ -188,12 +200,21 @@ public class RecipeStepsActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle outState) {
         outState.putLong(KEY_RECIPE_ID, recipeId);
         outState.putString(KEY_RECIPE_NAME, recipeName);
+        rvState = rvLayoutManager.onSaveInstanceState();
+        outState.putParcelable(KEY_RV_STATE, rvState);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        rvState = savedInstanceState.getParcelable(KEY_RV_STATE);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        rvLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(rvLayoutManager);
         recipeStepAdapter = new RecipeStepAdapter();
         recipeStepAdapter.setOnStepClickListener(this);
         recyclerView.setAdapter(recipeStepAdapter);
