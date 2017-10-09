@@ -10,12 +10,10 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -136,9 +134,6 @@ public class RecipeStepDetailFragment extends Fragment {
         if (getArguments() != null) {
             recipeId = getArguments().getLong(ARG_RECIPE_ID, 0);
             stepId = getArguments().getLong(ARG_STEP_ID, 0);
-        }
-
-        if (getArguments().containsKey(ARG_RECIPE_ID)) {
         }
     }
 
@@ -333,11 +328,16 @@ public class RecipeStepDetailFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        releasePlayer();
+        super.onStop();
+    }
+
+    @Override
     public void onDestroyView() {
         if (unbinder != null) {
             unbinder.unbind();
         }
-        releasePlayer();
         super.onDestroyView();
     }
 
