@@ -39,19 +39,31 @@ ext {
     mockitoVersion = '2.8.47'
     stethoLibVersion = '1.4.1'
     exoPlayerVersion = 'r2.5.2'
+    espressoVersion = '3.0.1'
+    supportTestVersion = '1.0.1'
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support.test.espresso:espresso-idling-resource:2.2.2'
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
+    compile "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
+    androidTestCompile "com.android.support.test:runner:$supportTestVersion", {
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile "com.android.support.test:rules:$supportTestVersion", {
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:$espressoVersion", {
+        exclude group: 'com.android.support'
         exclude group: 'com.google.code.findbugs'
     }
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion", {
+        exclude group: 'com.android.support'
         exclude group: 'com.google.code.findbugs'
-    })
+    }
+    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$espressoVersion", {
+        exclude group: 'com.android.support'
+        exclude group: 'com.google.code.findbugs'
+    }
 
     compile "com.android.support:appcompat-v7:$supportLibVersion"
     compile "com.android.support:design:$supportLibVersion"
