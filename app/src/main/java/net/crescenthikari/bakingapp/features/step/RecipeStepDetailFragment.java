@@ -165,10 +165,19 @@ public class RecipeStepDetailFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        if (player != null) {
+            getPlayerData();
+        }
         outState.putInt(KEY_CURRENT_WINDOW_IDX, currentWindowIndex);
         outState.putBoolean(KEY_PLAY_WHEN_READY, playWhenReady);
         outState.putLong(KEY_PLAYBACK_POSITION, playbackPosition);
         super.onSaveInstanceState(outState);
+    }
+
+    private void getPlayerData() {
+        currentWindowIndex = player.getCurrentWindowIndex();
+        playWhenReady = player.getPlayWhenReady();
+        playbackPosition = player.getCurrentPosition();
     }
 
     private void initializeMediaSession() {
@@ -324,7 +333,9 @@ public class RecipeStepDetailFragment extends Fragment {
 
         // 3. Setup view player
         exoPlayerView.setPlayer(player);
-        player.seekTo(playbackPosition);
+        Log.d(TAG, "setupExoPlayer: currentWindowIndex = " + currentWindowIndex);
+        Log.d(TAG, "setupExoPlayer: playbackPosition = " + playbackPosition);
+        player.seekTo(currentWindowIndex, playbackPosition);
     }
 
     @Override
@@ -343,9 +354,7 @@ public class RecipeStepDetailFragment extends Fragment {
 
     private void releasePlayer() {
         if (player != null) {
-            currentWindowIndex = player.getCurrentWindowIndex();
-            playWhenReady = player.getPlayWhenReady();
-            playbackPosition = player.getCurrentPosition();
+            getPlayerData();
             player.stop();
             player.release();
             player = null;
