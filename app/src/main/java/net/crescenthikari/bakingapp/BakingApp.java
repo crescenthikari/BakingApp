@@ -3,6 +3,7 @@ package net.crescenthikari.bakingapp;
 import android.app.Activity;
 import android.app.Application;
 import android.content.BroadcastReceiver;
+import android.util.Log;
 
 import com.squareup.picasso.Picasso;
 
@@ -21,6 +22,7 @@ import dagger.android.HasBroadcastReceiverInjector;
 
 public class BakingApp extends Application
         implements HasActivityInjector, HasBroadcastReceiverInjector {
+    private static final String TAG = "BakingApp";
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidActivityInjector;
@@ -51,6 +53,7 @@ public class BakingApp extends Application
         } catch (IllegalStateException ignored) {
             // Picasso instance was already set
             // cannot set it after Picasso.with(Context) was already in use
+            Log.e(TAG, "setupPicassoGlobalConfig: " + ignored.getMessage(), ignored);
         }
     }
 
