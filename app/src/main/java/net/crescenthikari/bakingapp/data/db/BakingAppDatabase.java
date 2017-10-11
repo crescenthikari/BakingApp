@@ -1,8 +1,6 @@
 package net.crescenthikari.bakingapp.data.db;
 
-import net.crescenthikari.bakingapp.data.db.table.IngredientColumns;
 import net.crescenthikari.bakingapp.data.db.table.RecipeColumns;
-import net.crescenthikari.bakingapp.data.db.table.StepColumns;
 import net.simonvt.schematic.annotation.Database;
 import net.simonvt.schematic.annotation.Table;
 

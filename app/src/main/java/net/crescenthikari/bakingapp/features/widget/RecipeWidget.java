@@ -23,13 +23,15 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Implementation of App Widget functionality.
  * App Widget Configuration implemented in {@link RecipeWidgetConfigureActivity RecipeWidgetConfigureActivity}
  */
 public class RecipeWidget extends AppWidgetProvider {
+    @Inject
+    RecipeRepository recipeRepository;
+
     static void updateAppWidget(Context context,
                                 AppWidgetManager appWidgetManager,
                                 String recipeName,
@@ -51,7 +53,6 @@ public class RecipeWidget extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
-
     static Spanned getSpannedText(String text) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT);
@@ -59,9 +60,6 @@ public class RecipeWidget extends AppWidgetProvider {
             return Html.fromHtml(text);
         }
     }
-
-    @Inject
-    RecipeRepository recipeRepository;
 
     @Override
     public void onReceive(Context context, Intent intent) {

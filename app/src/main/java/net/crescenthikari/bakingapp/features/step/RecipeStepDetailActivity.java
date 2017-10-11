@@ -3,14 +3,11 @@ package net.crescenthikari.bakingapp.features.step;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import net.crescenthikari.bakingapp.R;
 
@@ -33,6 +30,12 @@ public class RecipeStepDetailActivity extends AppCompatActivity
         implements HasSupportFragmentInjector {
     public static final String KEY_RECIPE_ID = "RECIPE_ID";
     public static final String KEY_STEP_ID = "STEP_ID";
+    @BindView(R.id.detail_toolbar)
+    Toolbar toolbar;
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidFragmentInjector;
+    private long recipeId;
+    private long stepId;
 
     public static void showStepDetailPage(Context context, long recipeId, long stepId) {
         Intent detailIntent = new Intent(context, RecipeStepDetailActivity.class);
@@ -40,15 +43,6 @@ public class RecipeStepDetailActivity extends AppCompatActivity
         detailIntent.putExtra(KEY_STEP_ID, stepId);
         context.startActivity(detailIntent);
     }
-
-    private long recipeId;
-    private long stepId;
-
-    @BindView(R.id.detail_toolbar)
-    Toolbar toolbar;
-
-    @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidFragmentInjector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
